@@ -3,7 +3,9 @@ from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy import Integer, Float, DateTime, String
 from sqlalchemy import ForeignKey
 from sqlalchemy.sql.functions import now
-import requests
+
+from urllib.request import urlopen, Request
+import json
 
 from models.mixin_model import MixinModel
 
@@ -20,13 +22,16 @@ class PositionModel(BaseModel, MixinModel):
   car = relationship('CarModel', back_populates='position', uselist=False)
 
   def resolve_address(self, latitude, longitude):
-    url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={latitude}&lon={longitude}&zoom=18&addressdetails=1"
-    response = requests.get(url)
-    if response.status_code == 200:
-      data = response.json()
-      self.address = data.get("display_name", "")
+    request = Request(
+        f"https://nominatim.openstreetmap.org/reverse?lat={latitude}&lon={longitude}&format=json"
+    )
+    response = urlopen(request).read()
+    data = json.loads(response)
+    if 'error' in data:
+      result = ''
     else:
-      self.address = ""
+      result = data['display_name']
+    return result
 
   def __init__(self, car_id, latitude, longitude):
     self.car_id = car_id
