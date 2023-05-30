@@ -50,3 +50,7 @@ class CarModel(BaseModel, MixinModel):
           fleet.json(include_cars=False) for fleet in self.fleets
       ]
     return car_json
+
+  @classmethod
+  def link_exists(cls, car_id, driver_id):
+    return cls.query.filter_by(id=car_id, driver_id=driver_id).first()
