@@ -9,8 +9,9 @@ from models.driver import DriverModel
 from models.fleet import FleetModel
 from models.car_fleet import CarFleetLink
 from models.user import UserModel
+from models.position import PositionModel
 
-from resources.car import Car, CarList
+from resources.car import Car, CarList, CarPosition
 from resources.driver import Driver
 from resources.assign import AssignDriverToCar
 from resources.car_fleet import CarFleet
@@ -63,6 +64,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 
 api.add_resource(Car, '/car/<string:plate>')
+api.add_resource(CarPosition, '/car/<string:plate>/position')
 api.add_resource(CarList, '/cars')
 api.add_resource(Driver, '/driver')
 api.add_resource(AssignDriverToCar, '/assign')

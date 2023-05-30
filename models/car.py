@@ -18,6 +18,7 @@ class CarModel(BaseModel, MixinModel):
 
   # one to one relationship
   driver = relationship('DriverModel', back_populates='car', uselist=False)
+  position = relationship('PositionModel', back_populates='car', uselist=False)
   # one to many relationship
   # fleets = db.relationship('CarFleetLink', back_populates='car')
   fleets = relationship('FleetModel',

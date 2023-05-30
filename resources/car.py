@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.car import CarModel
+from models.position import PositionModel
 from flask_jwt_extended import jwt_required
 
 
@@ -68,3 +69,30 @@ class CarList(Resource):
   @jwt_required()
   def get(self):
     return {'cars': [car.json() for car in CarModel.query.all()]}
+
+
+class CarPosition(Resource):
+  parser = reqparse.RequestParser()
+  parser.add_argument('latitude',
+                      type=float,
+                      required=True,
+                      help='This field cannot be left blank')
+  parser.add_argument('longitude',
+                      type=float,
+                      required=True,
+                      help='This field cannot be left blank')
+
+  def post(self, plate):
+    car = CarModel.find_by_attribute(license_plate=plate)
+    if car:
+      data = CarPosition.parser.parse_args()
+      car_position = PositionModel(car.id, data['latitude'], data['longitude'])
+      try:
+        car_position.save_to_db()
+        return {'message': 'Position was saved'}, 201
+      except Exception as e:
+        print(f"Error code: {e}")
+        return {
+            'message': 'An error occurred inserting the car position.'
+        }, 500
+    return {'message': 'Car not found.'}, 404
