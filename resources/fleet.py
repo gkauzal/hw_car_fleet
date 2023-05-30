@@ -5,7 +5,7 @@ from models.fleet import FleetModel
 class Fleet(Resource):
 
   def post(self, name):
-    if FleetModel.find_by_name(name):
+    if FleetModel.find_by_attribute():
       return {'message': f'A fleet with name {name} already exists.'}, 400
 
     fleet = FleetModel(name)
@@ -17,13 +17,13 @@ class Fleet(Resource):
     return fleet.json(), 201
 
   def get(self, name):
-    fleet = FleetModel.find_by_name(name)
+    fleet = FleetModel.find_by_attribute(name)
     if fleet:
       return fleet.json()
     return {'message': 'Fleet not found'}, 404
 
   def delete(self, name):
-    fleet = FleetModel.find_by_name(name)
+    fleet = FleetModel.find_by_attribute(name)
     if fleet:
       fleet.delete_from_db()
       return {'message': 'Fleet deleted'}

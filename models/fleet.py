@@ -21,13 +21,13 @@ class FleetModel(BaseModel, MixinModel):
   def __init__(self, name):
     self.name = name
 
-  @classmethod
-  def find_by_id(cls, id):
-    return cls.query.filter_by(id=id).first()
+  #@classmethod
+  #def find_by_id(cls, id):
+  #return cls.query.filter_by(id=id).first()
 
-  @classmethod
-  def find_by_name(cls, name):
-    return cls.query.filter_by(name=name).first()
+  #@classmethod
+  #def find_by_name(cls, name):
+  #return cls.query.filter_by(name=name).first()
 
   def json(self, include_cars=True):
     fleet = {'name': self.name, 'id': self.id}

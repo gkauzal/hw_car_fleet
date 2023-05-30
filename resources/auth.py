@@ -17,7 +17,7 @@ class Auth(Resource):
 
   def post(self):
     data = Auth.parser.parse_args()
-    user = UserModel.find_by_username(data['username'])
+    user = UserModel.find_by_attribute(username=data['username'])
     if user and user.password == data['password']:
       access_token = create_access_token(identity=user.id,
                                          expires_delta=timedelta(minutes=30))

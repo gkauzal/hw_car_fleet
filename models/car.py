@@ -28,16 +28,16 @@ class CarModel(BaseModel, MixinModel):
     self.license_plate = license_plate
     self.type = type
 
-  @classmethod
-  def find_by_id(cls, id):
-    return cls.query.filter_by(id=id).first()
+  #@classmethod
+  #def find_by_id(cls, id):
+  #return cls.query.filter_by(id=id).first()
 
-  @classmethod
-  def find_by_plate(cls, license_plate):
-    return cls.query.filter_by(license_plate=license_plate).first()
+  #@classmethod
+  #def find_by_plate(cls, license_plate):
+  #return cls.query.filter_by(license_plate=license_plate).first()
 
   def json(self, include_fleets=True):
-    driver = DriverModel.find_by_id(self.driver_id)
+    driver = DriverModel.find_by_attribute()
     car_json = {
         'license_plate': self.license_plate,
         'type': self.type,

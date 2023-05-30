@@ -17,7 +17,7 @@ class AssignDriverToCar(Resource):
 
   def post(self):
     data = AssignDriverToCar.parser.parse_args()
-    driver = DriverModel.find_by_id(data['driver_id'])
+    driver = DriverModel.find_by_attribute()
 
     # if driver:
     #   if car:
@@ -47,7 +47,7 @@ class AssignDriverToCar(Resource):
     if not driver:
       return {'message': 'Driver not found.'}, 404
 
-    car = CarModel.find_by_id(data['car_id'])
+    car = CarModel.find_by_attribute()
     if not car:
       return {'message': 'Car not found.'}, 404
 

@@ -11,14 +11,16 @@ class Car(Resource):
                       help='This field cannot be left blank')
 
   def get(self, plate):
-    car = CarModel.find_by_plate(plate)
+    #car = CarModel.find_by_plate(plate)
+    car = CarModel.find_by_attribute(license_plate=plate)
     if car:
       return car.json()
     return {'message': 'Car not found'}, 404
 
   # plate is a path parameter
   def post(self, plate):
-    if CarModel.find_by_plate(plate):
+    #if CarModel.find_by_plate(plate):
+    if CarModel.find_by_attribute(license_plate=plate):
       return {
           'message': "A car with plate '{}' already exists.".format(plate)
       }, 400
@@ -40,7 +42,7 @@ class Car(Resource):
 
   def delete(self, plate):
     # car = CarModel.query.filter_by(license_plate=plate).first()
-    car = CarModel.find_by_plate(plate)
+    car = CarModel.find_by_attribute(license_plate=plate)
     if car:
       car.delete_from_db()
       return {'message': 'Car deleted'}
@@ -50,7 +52,7 @@ class Car(Resource):
   def put(self, plate):
     data = Car.parser.parse_args()
 
-    car = CarModel.find_by_plate(plate)
+    car = CarModel.find_by_attribute(license_plate=plate)
 
     if car:
       car.type = data['type']

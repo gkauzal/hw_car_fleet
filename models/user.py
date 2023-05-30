@@ -13,7 +13,7 @@ class UserModel(BaseModel, MixinModel):
   # password = db.Column(db.String(80))
   password = mapped_column(String(80))
 
-  email = mapped_column(String(80))
+  #email = mapped_column(String(80))
 
   def __init__(self, username, password):
     self.username = username
@@ -22,13 +22,13 @@ class UserModel(BaseModel, MixinModel):
   def json(self):
     return {'name': self.username, 'id': self.id}
 
-  @classmethod
-  def find_by_username(cls, username):
-    return cls.query.filter_by(username=username).first()
+  #@classmethod
+  #def find_by_username(cls, username):
+    #return cls.query.filter_by(username=username).first()
 
-  @classmethod
-  def find_by_id(cls, id):
-    return cls.query.filter_by(id=id).first()
+  #@classmethod
+  #def find_by_id(cls, id):
+    #return cls.query.filter_by(id=id).first()
 
   @classmethod
   def get_all(cls):
