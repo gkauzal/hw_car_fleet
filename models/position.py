@@ -1,6 +1,6 @@
 from db import db, BaseModel
 from sqlalchemy.orm import mapped_column, relationship
-from sqlalchemy import Integer, Float, Date
+from sqlalchemy import Integer, Float, DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.sql.functions import now
 
@@ -13,7 +13,7 @@ class PositionModel(BaseModel, MixinModel):
   car_id = mapped_column(Integer, ForeignKey('cars.id'))
   latitude = mapped_column(Float)
   longitude = mapped_column(Float)
-  date = mapped_column(Date)
+  date = mapped_column(DateTime)
 
   car = relationship('CarModel', back_populates='position', uselist=False)
 
@@ -22,3 +22,11 @@ class PositionModel(BaseModel, MixinModel):
     self.latitude = latitude
     self.longitude = longitude
     self.date = now()
+
+  def json(self):
+    position_json = {
+        'latitude': self.latitude,
+        'longitude': self.longitude,
+        'date': self.date.isoformat() if self.date else None,
+    }
+    return position_json

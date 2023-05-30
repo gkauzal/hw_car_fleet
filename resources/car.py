@@ -96,3 +96,10 @@ class CarPosition(Resource):
             'message': 'An error occurred inserting the car position.'
         }, 500
     return {'message': 'Car not found.'}, 404
+
+  def get(self, plate):
+    car = CarModel.find_by_attribute(license_plate=plate)
+    if car:
+      positions = PositionModel.query.filter_by(car_id=car.id).all()
+      return {'positions': [positions.json() for positions in positions]}
+    return {'message': 'Car not found.'}, 404
