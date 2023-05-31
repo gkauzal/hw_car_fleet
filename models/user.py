@@ -11,7 +11,7 @@ class UserModel(BaseModel, MixinModel):
   # username = db.Column(db.String(80))
   username = mapped_column(String(80))
   # password = db.Column(db.String(80))
-  password = mapped_column(String(80))
+  password = mapped_column(String(800))
 
   #email = mapped_column(String(80))
 
@@ -24,11 +24,11 @@ class UserModel(BaseModel, MixinModel):
 
   #@classmethod
   #def find_by_username(cls, username):
-    #return cls.query.filter_by(username=username).first()
+  #return cls.query.filter_by(username=username).first()
 
   #@classmethod
   #def find_by_id(cls, id):
-    #return cls.query.filter_by(id=id).first()
+  #return cls.query.filter_by(id=id).first()
 
   @classmethod
   def get_all(cls):

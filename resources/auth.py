@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from models.user import UserModel
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
+from passlib.hash import pbkdf2_sha512
 
 
 class Auth(Resource):
@@ -18,7 +19,7 @@ class Auth(Resource):
   def post(self):
     data = Auth.parser.parse_args()
     user = UserModel.find_by_attribute(username=data['username'])
-    if user and user.password == data['password']:
+    if user and pbkdf2_sha512.verify(data.password, user.password):
       access_token = create_access_token(identity=user.id,
                                          expires_delta=timedelta(minutes=30))
       return {'access_token': access_token}, 200

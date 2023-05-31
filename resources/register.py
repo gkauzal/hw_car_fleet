@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
+from passlib.hash import pbkdf2_sha512
 
 
 class UserRegister(Resource):
@@ -19,7 +20,10 @@ class UserRegister(Resource):
       return {'message': 'A user with that username already exists'}, 400
 
     # user = UserModel(data['username'], data['password'])
-    user = UserModel(**data)
+
+    password = pbkdf2_sha512.using(rounds=310000,
+                                   salt_size=20).hash(data['password'])
+    user = UserModel(data['username'], password)
     user.save_to_db()
 
     return {'message': 'User created successfully.'}, 201
